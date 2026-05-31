@@ -1,0 +1,9 @@
+# pnpm 10+ moved settings out of package.json into this file.
+# This isn't actually a workspace — it's just where pnpm reads config now.
+
+allowBuilds:
+  sharp: true
+  "@tailwindcss/oxide": true
+  "unrs-resolver": true
+  es5-ext: true
+  core-js: false

@@ -1,0 +1,39 @@
+{
+  "name": "insightforge-frontend",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@supabase/ssr": "^0.5.2",
+    "@supabase/supabase-js": "^2.47.10",
+    "clsx": "^2.1.1",
+    "echarts": "^6.1.0",
+    "echarts-for-react": "^3.0.6",
+    "jspdf": "^4.2.1",
+    "lucide-react": "^1.17.0",
+    "next": "15.1.4",
+    "next-themes": "^0.4.6",
+    "plotly.js-dist-min": "^3.5.1",
+    "react": "19.0.0",
+    "react-dom": "19.0.0",
+    "react-grid-layout": "1.5.2",
+    "react-plotly.js": "^2.6.0",
+    "sonner": "^2.0.7"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4.0.0",
+    "@types/node": "^22.10.5",
+    "@types/react": "^19.0.7",
+    "@types/react-dom": "^19.0.3",
+    "@types/react-plotly.js": "^2.6.4",
+    "postcss": "^8.4.49",
+    "tailwindcss": "^4.0.0",
+    "typescript": "^5.7.3"
+  }
+}

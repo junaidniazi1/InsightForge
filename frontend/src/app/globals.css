@@ -1,0 +1,205 @@
+@import "tailwindcss";
+
+/* Tailwind v4 — class-based dark mode. The `dark:` variant fires whenever an
+   ancestor has class="dark", which next-themes manages on <html>. */
+@variant dark (.dark &);
+
+/* -----------------------------------------------------------------------
+   Design tokens. Components throughout the app already use
+   `var(--color-*)` directly, so flipping these values inside `.dark` swaps
+   the entire theme without touching any component code.
+
+   Palette direction (UI polish phase): warm-cool neutrals from Tailwind's
+   `slate` family, indigo accent, semantic emerald/amber/rose/sky.
+   ----------------------------------------------------------------------- */
+
+:root {
+  /* surfaces */
+  --color-bg:             #f8fafc;  /* slate-50  — app background */
+  --color-panel:          #ffffff;  /* card / panel surface */
+  --color-border:         #e2e8f0;  /* slate-200 — subtle dividers */
+  --color-border-strong:  #cbd5e1;  /* slate-300 — hover dividers */
+
+  /* text */
+  --color-fg:             #0f172a;  /* slate-900 */
+  --color-muted:          #64748b;  /* slate-500 */
+
+  /* primary accent */
+  --color-accent:         #4f46e5;  /* indigo-600 */
+  --color-accent-strong:  #4338ca;  /* indigo-700 — hover */
+  --color-accent-soft:    #eef2ff;  /* indigo-50  — tinted backgrounds */
+
+  /* semantic */
+  --color-success:        #10b981;  /* emerald-500 */
+  --color-warning:        #f59e0b;  /* amber-500   */
+  --color-danger:         #e11d48;  /* rose-600    */
+  --color-info:           #0284c7;  /* sky-600     */
+
+  /* focus ring */
+  --color-ring:           #6366f1;  /* indigo-500 */
+
+  color-scheme: light;
+}
+
+.dark {
+  --color-bg:             #020617;  /* slate-950 */
+  --color-panel:          #0f172a;  /* slate-900 */
+  --color-border:         #1e293b;  /* slate-800 */
+  --color-border-strong:  #334155;  /* slate-700 */
+
+  --color-fg:             #f1f5f9;  /* slate-100 */
+  --color-muted:          #94a3b8;  /* slate-400 */
+
+  --color-accent:         #818cf8;  /* indigo-400 */
+  --color-accent-strong:  #6366f1;  /* indigo-500 */
+  --color-accent-soft:    rgba(99, 102, 241, 0.12);
+
+  --color-success:        #34d399;  /* emerald-400 */
+  --color-warning:        #fbbf24;  /* amber-400   */
+  --color-danger:         #fb7185;  /* rose-400    */
+  --color-info:           #38bdf8;  /* sky-400     */
+
+  --color-ring:           #a5b4fc;  /* indigo-300 */
+
+  color-scheme: dark;
+}
+
+/* -----------------------------------------------------------------------
+   Base body styling. The `color-scheme` above gives us themed form
+   controls + scrollbars; this just covers the page surface.
+   ----------------------------------------------------------------------- */
+
+html, body {
+  background: var(--color-bg);
+  color: var(--color-fg);
+  font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+}
+
+* {
+  border-color: var(--color-border);
+}
+
+/* Pretty selection colours in both modes. */
+::selection {
+  background: var(--color-accent);
+  color: white;
+}
+
+/* Subtle scrollbar that stays out of the way and still inverts cleanly. */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-border-strong) transparent;
+}
+*::-webkit-scrollbar { width: 10px; height: 10px; }
+*::-webkit-scrollbar-track { background: transparent; }
+*::-webkit-scrollbar-thumb {
+  background: var(--color-border-strong);
+  border-radius: 6px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+
+/* -----------------------------------------------------------------------
+   Animations
+   ----------------------------------------------------------------------- */
+
+@keyframes modal-in {
+  from { opacity: 0; transform: scale(0.96); }
+  to   { opacity: 1; transform: scale(1); }
+}
+@keyframes modal-fade {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+.animate-modal-in   { animation: modal-in 150ms cubic-bezier(0.16, 1, 0.3, 1); }
+.animate-modal-fade { animation: modal-fade 120ms ease-out; }
+
+/* -----------------------------------------------------------------------
+   Cinematic motion layer
+   Tasteful entrance + hover animations to make the app feel alive. Every
+   effect is disabled under prefers-reduced-motion (see bottom of file).
+   ----------------------------------------------------------------------- */
+@keyframes fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes fade-in-up {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes scale-in {
+  from { opacity: 0; transform: scale(0.96); }
+  to   { opacity: 1; transform: scale(1); }
+}
+@keyframes shimmer {
+  0%   { background-position: -200% 0; }
+  100% { background-position:  200% 0; }
+}
+@keyframes float-slow {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-6px); }
+}
+
+.animate-fade-in    { animation: fade-in 0.5s ease both; }
+.animate-fade-in-up { animation: fade-in-up 0.5s cubic-bezier(0.22, 1, 0.36, 1) both; }
+.animate-scale-in   { animation: scale-in 0.4s cubic-bezier(0.22, 1, 0.36, 1) both; }
+.animate-float-slow { animation: float-slow 6s ease-in-out infinite; }
+
+/* Stagger helpers — pair with an entrance animation on list items. */
+.stagger-1 { animation-delay: 0.05s; }
+.stagger-2 { animation-delay: 0.10s; }
+.stagger-3 { animation-delay: 0.15s; }
+.stagger-4 { animation-delay: 0.20s; }
+.stagger-5 { animation-delay: 0.25s; }
+.stagger-6 { animation-delay: 0.30s; }
+
+/* Lift-on-hover for interactive cards / tiles. */
+.hover-lift {
+  transition:
+    transform 0.25s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.25s ease,
+    border-color 0.2s ease;
+  will-change: transform;
+}
+.hover-lift:hover {
+  transform: translateY(-3px);
+  box-shadow:
+    0 10px 30px -12px color-mix(in srgb, var(--color-accent) 35%, transparent),
+    0 4px 10px -6px rgba(0, 0, 0, 0.15);
+  border-color: color-mix(in srgb, var(--color-accent) 45%, var(--color-border));
+}
+
+/* Accent gradient text for hero headings. */
+.text-gradient {
+  background: linear-gradient(
+    100deg,
+    var(--color-accent),
+    color-mix(in srgb, var(--color-accent) 50%, #ec4899)
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Shimmer surface for richer skeletons. */
+.shimmer {
+  background: linear-gradient(
+    90deg,
+    var(--color-border) 0%,
+    color-mix(in srgb, var(--color-muted) 22%, var(--color-border)) 50%,
+    var(--color-border) 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.4s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-fade-in,
+  .animate-fade-in-up,
+  .animate-scale-in,
+  .animate-float-slow,
+  .shimmer {
+    animation: none !important;
+  }
+  .hover-lift:hover { transform: none; }
+}
